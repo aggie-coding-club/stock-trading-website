@@ -7,6 +7,8 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "firebase": "^9.10.0",
+    "firebase-admin": "^11.0.1",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5"
   },
