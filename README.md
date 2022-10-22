@@ -1,5 +1,5 @@
 # stock-trading-website
 
-Contributor:\
+Contributors:\
 Yonghwan Kim: kyhwan492@tamu.edu\
-Keegan Smith: keeganasmith2003@tamu.edu\
+Keegan Smith: keeganasmith2003@tamu.edu
