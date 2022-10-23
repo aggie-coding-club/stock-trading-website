@@ -6,4 +6,5 @@ Keegan Smith: keeganasmith2003@tamu.edu\
 Will Heeney: willheeney03@tamu.edu\
 Evan Pan: pan.evan@tamu.edu\
 Marco Verderame: marcvf38@tamu.edu\
-Siddarth Kotthur: siddarth_kot@tamu.edu
+Siddarth Kotthur: siddarth_kot@tamu.edu\
+Munish Shah: munish.shah@tamu.edu\
