@@ -1,7 +1,11 @@
+<!-- Header for all pages: Will, Keeney -->
+
 <script></script>
 
 <template>
-<h1>Header</h1>
+    <div class="Navbar">
+
+    </div>
 </template>
 
 <style></style>
