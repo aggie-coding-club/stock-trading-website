@@ -2,53 +2,53 @@
 Howdy! This is StockSim -  Stock Trading Simulator
 
 ## Installation
->Install Node.js
+Install Node.js
 
-must be higher than 16.0
+>must be higher than 16.0
 
->node -v 
+node -v 
 
-to check Node.js is installed
+>to check Node.js is installed
 
->npm -v 
+npm -v 
 
-to check npm is installed
+>to check npm is installed
 
->npm install -g npm 
+npm install -g npm 
 
-download latest version of npm
+>download latest version of npm
 
->npm init vue@latest 
+npm init vue@latest 
 
-install Vue.js and execute create-vue
+>install Vue.js and execute create-vue
 
-> cd <your-project-name>
+cd <your-project-name>
 
-Browse to the project file
+>Browse to the project file
 
-> npm install
+npm install
 
-To install required pakages - only for the first time execpt changes are made in dependencies
+>To install required pakages - only for the first time execpt changes are made in dependencies
 
 ## To Run
-> npm run dev
+npm run dev
 
-To run website locally
+>To run website locally
 
-> npm run build
+npm run build
 
-When ready to ship app to production
+>When ready to ship app to production
 
 ## Github Rules
->#1 The Main branch always needs to be protected! Never push directly or merge into the main branch!
+#1 The Main branch always needs to be protected! Never push directly or merge into the main branch!
 
->#2 Pull before you code and push whatever the change is to your branch!
+#2 Pull before you code and push whatever the change is to your branch!
 
->#3 Publish your branch so that everyone in the Github repository can track your change!
+#3 Publish your branch so that everyone in the Github repository can track your change!
 
->#4 When you commit, besure to add what is changed or added or result of the commit
+#4 When you commit, besure to add what is changed or added or result of the commit
 
->#5 If you pull merge requests, be sure that other people can pull that request not yourself
+#5 If you pull merge requests, be sure that other people can pull that request not yourself
 
 ## Style Guide
 Try to make componenets and call them on views
