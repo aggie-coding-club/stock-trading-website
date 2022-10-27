@@ -16,9 +16,6 @@ to check npm is installed
 
 >npm install -g npm 
 
-download latest version of npm
-
->npm init vue@latest 
 
 install Vue.js and execute create-vue
 
