@@ -1,19 +1,7 @@
 <!-- Header for all pages: Will, Keeney -->
 
 <script>
-export default {
-  // props: ['page'],
-  // created() {
-  //     // props are exposed on `this`
-  //     console.log(this.page);
-  //     // if (true) {
-  //     //     console.log(this.$ref.home1);
-  //     // }
-  // },
-  // mounted: function() {
-  //     console.log(this.$ref.home); //deleted reference
-  // }
-};
+export default {};
 </script>
 
 <template>
@@ -45,7 +33,11 @@ ul {
   background-color: #333;
 }
 
-header li a {
+li {
+  float: left;
+}
+
+li a {
   display: block;
   color: white;
   text-align: center;
