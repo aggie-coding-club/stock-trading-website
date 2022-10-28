@@ -1,14 +1,12 @@
 <script setup>
-import Header from "../components/Header.vue"
-import Footer from "../components/Footer.vue"
+import Header from "../components/Header.vue";
+import Footer from "../components/Footer.vue";
 </script>
 
 <template>
-  <Header/>
-  <div class="about">
-    <h3>Stock Price of Microsoft: {{ testPrice }}</h3>
-  </div>
-  <Footer/>
+  <Header />
+  <div class="about"></div>
+  <Footer />
 </template>
 
 <style></style>
@@ -60,9 +58,9 @@ export default {
     this.connectDB();
     this.connectAPI();
 
-    this.client.quote("MSFT", (error, data, response) => {
-      this.testPrice = data["c"];
-    });
+    // this.client.quote("MSFT", (error, data, response) => {
+    //   this.testPrice = data["c"];
+    // });
   },
 };
 </script>
