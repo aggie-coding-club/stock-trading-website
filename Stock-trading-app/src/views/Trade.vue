@@ -1,12 +1,14 @@
 <script setup>
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
+import TradeTable from "../components/TradeTable.vue";
 </script>
 
 <template>
   <Header />
   <div class="about"></div>
   <h1>USER ID: {{ this.$store.state.userID }}</h1>
+  <TradeTable/>
   <Footer />
 </template>
 
