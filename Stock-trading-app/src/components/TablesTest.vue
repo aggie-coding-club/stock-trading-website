@@ -29,6 +29,7 @@ export default {
     sort() {
       const sortable = Object.fromEntries(Object.entries(this.symbols).sort(([, a], [, b]) => a - b));
       this.symbols = sortable;
+      console.log("hey");
     },
   },
 };
