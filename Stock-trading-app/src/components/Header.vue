@@ -1,18 +1,26 @@
 <!-- Header for all pages: Will, Keeney -->
 
 <script>
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import firebaseConfig from "../firebaseConfig";
+import store from "../store";
+firebaseConfig;
+const provider = new GoogleAuthProvider();
+const auth = getAuth();
 export default {
-  // props: ['page'],
-  // created() {
-  //     // props are exposed on `this`
-  //     console.log(this.page);
-  //     // if (true) {
-  //     //     console.log(this.$ref.home1);
-  //     // }
-  // },
-  // mounted: function() {
-  //     console.log(this.$ref.home); //deleted reference
-  // }
+  methods: {
+    googleSignIn() {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const uid = result.user.uid;
+          this.$store.state.userID = uid;
+          console.log(uid);
+        })
+        .catch((e) => {
+          console.log("Error buddy");
+        });
+    },
+  },
 };
 </script>
 
@@ -21,7 +29,8 @@ export default {
     <ul>
       <li style="float: left"><a href="/">StockSim</a></li>
       <li style="float: right" :class="this.$route.name == 'user' ? 'active' : ''">
-        <a id="login" href="\user">Log In</a>
+        <a v-if="!this.$store.state.userID" id="login" @click="googleSignIn">Log In</a>
+        <a v-else id="logout" @click="googleSigOut">Signed Out</a>
       </li>
       <li style="float: right" :class="this.$route.name == 'trade' ? 'active' : ''">
         <a id="trading" href="\trade">Trading</a>
@@ -43,6 +52,10 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: #333;
+}
+
+li {
+  float: left;
 }
 
 li a {
