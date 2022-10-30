@@ -6,6 +6,7 @@ import Footer from "../components/Footer.vue";
 <template>
   <Header />
   <div class="about"></div>
+  <h1>USER ID: {{ this.$store.state.userID }}</h1>
   <Footer />
 </template>
 
@@ -57,6 +58,7 @@ export default {
   mounted() {
     this.connectDB();
     this.connectAPI();
+    console.log(this.$store.state.userID);
 
     // this.client.quote("MSFT", (error, data, response) => {
     //   this.testPrice = data["c"];

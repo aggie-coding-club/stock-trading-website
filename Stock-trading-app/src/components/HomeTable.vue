@@ -25,9 +25,9 @@ export default {
   mounted() {
     this.connectAPI();
     for (const [ticker, price] of Object.entries(this.prices)) {
-      //   this.client.quote(ticker, (error, data, response) => {
-      //     this.prices[ticker] = data["c"];
-      //   });
+      this.client.quote(ticker, (error, data, response) => {
+        this.prices[ticker] = data["c"];
+      });
     }
   },
 };
@@ -84,6 +84,7 @@ caption {
   line-height: 1;
 }
 .Table_Container {
+  color: black;
   width: 25%;
   position: relative;
   padding: 1.25rem 0.9375rem;

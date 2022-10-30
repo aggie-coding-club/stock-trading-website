@@ -3,7 +3,6 @@
 <script>
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import firebaseConfig from "../firebaseConfig";
-import store from "../store";
 firebaseConfig;
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -14,7 +13,6 @@ export default {
         .then((result) => {
           const uid = result.user.uid;
           this.$store.state.userID = uid;
-          console.log(uid);
         })
         .catch((e) => {
           console.log("Error buddy");
