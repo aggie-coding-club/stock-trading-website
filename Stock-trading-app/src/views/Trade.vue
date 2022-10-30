@@ -1,11 +1,13 @@
 <script setup>
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
+import TablesTest from "../components/TablesTest.vue";
 </script>
 
 <template>
   <Header />
   <div class="about"></div>
+  <TablesTest />
 </template>
 
 <style></style>

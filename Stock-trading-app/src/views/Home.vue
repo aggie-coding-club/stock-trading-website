@@ -1,3 +1,13 @@
+<template>
+  <Header />
+  <Heading />
+  <div class="main">
+    <HomeTable />
+    <GraphsTemplate :data="data" :labels="labels" />
+  </div>
+  <Footer />
+</template>
+
 <script setup>
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
@@ -6,15 +16,16 @@ import Heading from "../components/Heading.vue";
 import GraphsTemplate from "../components/GraphsTemplate.vue";
 </script>
 
-<template>
-  <Header />
-  <Heading />
-  <div class="main">
-    <HomeTable />
-    <GraphsTemplate :data="[1, 2, 3, 4]" :labels="['jan', 'feb', 'march', 'april']" />
-  </div>
-  <Footer />
-</template>
+<script>
+export default {
+  data() {
+    return {
+      data: [1, 2, 3, 4],
+      labels: [5, 6, 7, 8],
+    };
+  },
+};
+</script>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&family=Poppins&display=swap");
