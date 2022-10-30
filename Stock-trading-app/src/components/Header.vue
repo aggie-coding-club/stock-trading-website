@@ -1,7 +1,27 @@
 <!-- Header for all pages: Will, Keeney -->
 
 <script>
-export default {};
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import firebaseConfig from "../firebaseConfig";
+import store from "../store";
+firebaseConfig;
+const provider = new GoogleAuthProvider();
+const auth = getAuth();
+export default {
+  methods: {
+    googleSignIn() {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const uid = result.user.uid;
+          this.$store.state.userID = uid;
+          console.log(uid);
+        })
+        .catch((e) => {
+          console.log("Error buddy");
+        });
+    },
+  },
+};
 </script>
 
 <template>
@@ -9,7 +29,8 @@ export default {};
     <ul>
       <li style="float: left"><a href="/">StockSim</a></li>
       <li style="float: right" :class="this.$route.name == 'user' ? 'active' : ''">
-        <a id="login" href="\user">Log In</a>
+        <a v-if="!this.$store.state.userID" id="login" @click="googleSignIn">Log In</a>
+        <a v-else id="logout" @click="googleSigOut">Signed Out</a>
       </li>
       <li style="float: right" :class="this.$route.name == 'trade' ? 'active' : ''">
         <a id="trading" href="\trade">Trading</a>
