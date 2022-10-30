@@ -20,15 +20,18 @@ export default {
       const finnhubClient = new DefaultApi();
       this.client = finnhubClient;
     },
+    Bob(e) {
+      e.target.parentElement.classList.add("selected");
+    },
   },
 
   mounted() {
     this.connectAPI();
-    for (const [ticker, price] of Object.entries(this.prices)) {
-      this.client.quote(ticker, (error, data, response) => {
-        this.prices[ticker] = data["c"];
-      });
-    }
+    // for (const [ticker, price] of Object.entries(this.prices)) {
+    //   this.client.quote(ticker, (error, data, response) => {
+    //     this.prices[ticker] = data["c"];
+    //   });
+    // }
   },
 };
 </script>
@@ -44,7 +47,7 @@ export default {
       </thead>
 
       <tr v-for="(price, ticker, index) in prices">
-        <td class="Table_Ticker">{{ ticker }}</td>
+        <td class="Table_Ticker" @click="Bob" :class="ticker">{{ ticker }}</td>
         <td class="Table_Price">${{ price }}</td>
       </tr>
     </Table>
@@ -53,6 +56,9 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap");
+.selected {
+  background-color: aqua;
+}
 table {
   border-collapse: collapse;
   border-spacing: 0;
