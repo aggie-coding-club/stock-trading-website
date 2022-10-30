@@ -4,7 +4,7 @@
 
 <template>
 <div class="Heading">
-
+    <h1>Stock Trading Simulator</h1>
 </div>
 </template>
 
