@@ -2,14 +2,11 @@
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import HomeTable from "../components/HomeTable.vue";
-import GraphsTemplate from "../components/GraphsTemplate.vue";
 import Heading from "../components/Heading.vue";
 </script>
 
 <template>
   <Header />
-  <HomeTable />
-  <GraphsTemplate :data="[1, 2, 3, 4]" :labels="['jan', 'feb', 'march', 'april']" />
   <Heading />
   <div class="main">
     <HomeTable />
