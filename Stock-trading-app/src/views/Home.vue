@@ -3,13 +3,15 @@ import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import HomeTable from "../components/HomeTable.vue";
 import Heading from "../components/Heading.vue";
-
 </script>
 
 <template>
   <Header />
   <Heading />
-  <HomeTable />
+  <div class="main">
+    <HomeTable />
+  </div>
+  <Footer />
 </template>
 
 <style>
@@ -20,5 +22,12 @@ html {
   padding: 0;
   background-color: #f0ecec;
   font-family: "Poppins";
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 </style>
