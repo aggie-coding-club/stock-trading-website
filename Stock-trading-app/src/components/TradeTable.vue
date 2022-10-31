@@ -2,10 +2,12 @@
 
 <script>
 import { ApiClient, DefaultApi } from "finnhub";
+import {ref} from "vue";
 
 export default {
   data() {
     return {
+      input: "",
       prices: {
         AAPL: 0,
         MSFT: 0,
@@ -27,6 +29,15 @@ export default {
       }
       e.target.parentElement.classList.add("selected");
     },
+    filtered(prices, input) {
+        var result=  {};
+        for (var key in prices){
+            if(key.toLowerCase().includes(input.toLowerCase())){
+                result[key] = prices[key];
+            }
+        } 
+        return result;
+    }
   },
 
   mounted() {
@@ -42,15 +53,16 @@ export default {
 
 <template>
   <div class="Table_Container">
+    <input type="text" v-model="input" placeholder="Search.."/>      
+
     <Table>
-      <thead>
+    <thead>
         <tr>
           <th class="Table_Heading">Ticker</th>
           <th class="Table_Heading">Current Price</th>
         </tr>
       </thead>
-
-      <tr v-for="(price, ticker, index) in prices">
+      <tr v-for="(price, ticker, index) in filtered(prices, input)">
         <td class="Table_Ticker" @click="Bob" :class="ticker">{{ ticker }}</td>
         <td class="Table_Price">${{ price }}</td>
       </tr>
