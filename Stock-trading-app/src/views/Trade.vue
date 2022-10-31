@@ -7,9 +7,7 @@ import TradeTable from "../components/TradeTable.vue";
 <template>
   <Header />
   <div class="about"></div>
-  <h1>USER ID: {{ this.$store.state.userID }}</h1>
-  <TradeTable/>
-  <Footer />
+  <TradeTable />
 </template>
 
 <style></style>
