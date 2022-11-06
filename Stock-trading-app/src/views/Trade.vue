@@ -7,19 +7,20 @@ import Heading from "../components/Heading.vue";
 
 <template>
   <Header />
- <div class="content_container">
- <TradeTable />
- <div class="chart_container">
-    <canvas id="stock_compare" ref="stock_compare"></canvas>
- </div>
- </div>
+  <div class="content_container">
+    <TradeTable />
+    <div class="chart_container">
+      <div id="stock_compare" ref="stock_compare"></div>
+    </div>
+  </div>
 </template>
 
 <style></style>
 
 <script>
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc, collection, getDoc } from "firebase/firestore";
+import ApexCharts from "apexcharts";
 
 import { ApiClient, DefaultApi } from "finnhub";
 
@@ -30,11 +31,35 @@ export default {
       db: null,
       client: null,
       testPrice: 0,
+      options: {
+        chart: {
+          type: "candlestick",
+        },
+        series: [
+          {
+            name: "sales",
+            data: [
+              {
+                x: new Date(),
+                y: [217.68, 221.03, 6623.04, 6633.33],
+              },
+              {
+                x: new Date() + 1,
+                y: [221.03, 6643.59, 6620, 6630.11],
+              },
+              {
+                x: new Date() + 2,
+                y: [219.89, 6643.59, 6620, 6630.11],
+              },
+            ],
+          },
+        ],
+      },
     };
   },
   // actions
   methods: {
-    connectDB() {
+    async connectDB() {
       const firebaseConfig = {
         apiKey: "AIzaSyDFcXiGK1LQJDj1bkJN10bjKAflKNN3n3I",
         authDomain: "vue-stuff-a1a86.firebaseapp.com",
@@ -50,6 +75,7 @@ export default {
 
       const db = getFirestore(app);
       this.db = db;
+      // this.collection = collection(db, "users");
     },
 
     connectAPI() {
@@ -58,36 +84,50 @@ export default {
       const finnhubClient = new DefaultApi();
       this.client = finnhubClient;
     },
+
+    // async getData() {
+    //   if (this.$store.state.userID != "" || this.$store.state.userID != null) {
+    //     const docRef = doc(this.$data.db, "users", this.$store.state.userID);
+    //     const docSnap = await getDoc(docRef);
+
+    //     console.log(docSnap.data());
+    //   } else {
+    //     console.log("not logged in!");
+    //   }
+    // },
   },
 
-  mounted() {
-    this.connectDB();
+  async mounted() {
+    //await this.connectDB();
+    console.log("database connected");
     this.connectAPI();
     console.log(this.$store.state.userID);
+    let chart = new ApexCharts(document.querySelector("#stock_compare"), this.options);
+    chart.render();
+    console.log("rendered");
 
-    this.client.quote("MSFT", (error, data, response) => {
-      this.testPrice = data["c"];
-    });
+    // this.client.quote("MSFT", (error, data, response) => {
+    //   this.testPrice = data["c"];
+    // });
 
-    console.log(this.testPrice);
+    //await this.getData();
   },
 };
 </script>
 
 <style scoped>
-.content_container{
-width:100%;
-height: 85vh;
-margin:auto;
-    display:flex;
-    justify-content: space-evenly;
-    position: absolute;
-    top:50%;
-    transform: translateY(-50%);
+.content_container {
+  width: 100%;
+  height: 85vh;
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
-.chart_container{
-    background-color:black;
-    width: 40%;
-    height: 100%;
+.chart_container {
+  width: 40vw;
+  height: 100%;
 }
 </style>

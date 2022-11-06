@@ -8,6 +8,7 @@ import Heading from "./Heading.vue";
 export default {
   data() {
     return {
+      selected_ticker: "",
       input: "",
       prices: {
         AAPL: 0,
@@ -35,6 +36,7 @@ export default {
         selected[i].classList.remove("selected");
       }
       e.target.parentElement.classList.add("selected");
+      this.$store.state.selected_ticker = e.target.innerHTML;
     },
     filtered(prices, input) {
       var result = {};
@@ -59,6 +61,7 @@ export default {
 </script>
 
 <template>
+  <h1>{{ selected_ticker }}</h1>
   <div class="search_container">
     <div class="flexbox_container">
       <input type="text" v-model="input" @input="filtered(this.prices, input)" />
@@ -108,7 +111,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
-  height:100%;
+  height: 100%;
 }
 
 th,
@@ -118,7 +121,7 @@ td {
   vertical-align: middle;
   border-top: 0.0625rem solid maroon;
   min-width: 5rem;
-  height:2vh;
+  height: 2vh;
 }
 caption {
   display: table-caption;
@@ -138,7 +141,7 @@ caption {
 .Table_Container {
   color: black;
   width: 90%;
-  height:65vh;
+  height: 65vh;
   margin: auto;
   padding: 1.25rem 0.9375rem;
   border-color: rgb(255 255 255/10%);
