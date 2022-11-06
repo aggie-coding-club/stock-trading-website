@@ -3,6 +3,8 @@
 <script>
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import firebaseConfig from "../firebaseConfig";
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, collection, getDoc } from "firebase/firestore";
 firebaseConfig;
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -13,12 +15,41 @@ export default {
         .then((result) => {
           const uid = result.user.uid;
           this.$store.state.userID = uid;
-          this.$store.state.user_name = result.user
+          this.$store.state.user_name = result.user;
+          this.$store.state.logged_in = true;
         })
         .catch((e) => {
           console.log("Error buddy");
         });
     },
+
+    async connectDB() {
+      const firebaseConfig = this.$store.state.firebaseConfig;
+
+      const app = initializeApp(firebaseConfig);
+
+      const db = getFirestore(app);
+      this.db = db;
+      this.collection = collection(db, "users");
+    },
+
+    async getData() {
+      if (this.$store.state.userID != "" || this.$store.state.userID != null) {
+        const docRef = doc(this.$data.db, "users", this.$store.state.userID);
+        const docSnap = await getDoc(docRef);
+
+        console.log(docSnap.data());
+      } else {
+        console.log("not logged in!");
+      }
+    },
+  },
+
+  async mounted() {
+    //await this.connectDB();
+    console.log("database connected");
+    //await this.getData();
+    console.log("Got data");
   },
 };
 </script>
