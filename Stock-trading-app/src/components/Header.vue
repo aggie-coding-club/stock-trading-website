@@ -26,19 +26,19 @@ export default {
 <template>
   <div class="Navbar">
     <ul>
-      <li style="float: left"><a href="/">StockSim</a></li>
+      <li style="float: left"><router-link to="/">StockSim</router-link></li>
       <li style="float: right" :class="this.$route.name == 'user' ? 'active' : ''">
         <a v-if="!this.$store.state.userID" id="login" @click="googleSignIn">Log In</a>
         <a v-else id="logout" @click="googleSigOut">Signed Out</a>
       </li>
       <li style="float: right" :class="this.$route.name == 'trade' ? 'active' : ''">
-        <a id="trading" href="\trade">Trading</a>
+        <router-link to="/trade">Trading</router-link>
       </li>
       <li style="float: right" :class="this.$route.name == 'portfolio' ? 'active' : ''">
-        <a id="portfolio" href="\portfolio">Portfolio</a>
+        <router-link to="/portfolio">Portfolio</router-link>
       </li>
       <li style="float: right" :class="this.$route.name == 'home' ? 'active' : ''">
-        <a id="home" href="\">Home</a>
+        <router-link to="/">Home</router-link>
       </li>
     </ul>
   </div>
