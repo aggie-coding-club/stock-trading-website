@@ -3,6 +3,7 @@
 <script>
 import { ApiClient, DefaultApi } from "finnhub";
 import { ref } from "vue";
+import axios from "axios";
 import Heading from "./Heading.vue";
 
 export default {
@@ -30,13 +31,14 @@ export default {
       const finnhubClient = new DefaultApi();
       this.client = finnhubClient;
     },
-    Bob(e) {
+    async Bob(e) {
       var selected = e.target.parentElement.parentElement.getElementsByClassName("selected");
       for (var i = 0; i < selected.length; i++) {
         selected[i].classList.remove("selected");
       }
       e.target.parentElement.classList.add("selected");
       this.$store.state.selected_ticker = e.target.innerHTML;
+      await this.update();
     },
     filtered(prices, input) {
       var result = {};
@@ -46,6 +48,31 @@ export default {
         }
       }
       return result;
+    },
+    async update() {
+      let URI = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${this.$store.state.selected_ticker}&apikey=6S3XWKYVUZIUJZEF`;
+      let response = await axios.get(URI);
+      let data = await response.data;
+      let stock_data = data["Time Series (Daily)"];
+      this.$store.state.graph_data = [];
+      for (const date in stock_data) {
+        let info = {
+          x: date,
+          y: [
+            parseFloat(stock_data[date]["1. open"]),
+            parseFloat(stock_data[date]["2. high"]),
+            parseFloat(stock_data[date]["3. low"]),
+            parseFloat(stock_data[date]["4. close"]),
+          ],
+        };
+        this.$store.state.graph_data.push(info);
+      }
+
+      this.$store.state.price_chart.updateSeries([
+        {
+          data: this.$store.state.graph_data,
+        },
+      ]);
     },
   },
 

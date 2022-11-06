@@ -21,6 +21,7 @@ import Heading from "../components/Heading.vue";
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, collection, getDoc } from "firebase/firestore";
 import ApexCharts from "apexcharts";
+import axios from "axios";
 
 import { ApiClient, DefaultApi } from "finnhub";
 
@@ -30,28 +31,30 @@ export default {
     return {
       db: null,
       client: null,
+      ticker: "AAPL",
       testPrice: 0,
+      graph_data: [],
       options: {
         chart: {
           type: "candlestick",
         },
+        title: {
+          text: "CandleStick Chart",
+          align: "left",
+        },
+        xaxis: {
+          type: "datetime",
+        },
+        yaxis: {
+          tooltip: {
+            enabled: false,
+            show: false,
+          },
+        },
         series: [
           {
             name: "sales",
-            data: [
-              {
-                x: new Date(),
-                y: [217.68, 221.03, 6623.04, 6633.33],
-              },
-              {
-                x: new Date() + 1,
-                y: [221.03, 6643.59, 6620, 6630.11],
-              },
-              {
-                x: new Date() + 2,
-                y: [219.89, 6643.59, 6620, 6630.11],
-              },
-            ],
+            data: this.$store.state.graph_data,
           },
         ],
       },
@@ -102,15 +105,34 @@ export default {
     console.log("database connected");
     this.connectAPI();
     console.log(this.$store.state.userID);
-    let chart = new ApexCharts(document.querySelector("#stock_compare"), this.options);
-    chart.render();
-    console.log("rendered");
 
     // this.client.quote("MSFT", (error, data, response) => {
     //   this.testPrice = data["c"];
     // });
 
     //await this.getData();
+    // let URI = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${this.$store.state.selected_ticker}&apikey=6S3XWKYVUZIUJZEF`;
+    // let response = await axios.get(URI);
+    // let data = await response.data;
+    // let stock_data = data["Time Series (Daily)"];
+    // for (const date in stock_data) {
+    //   let info = {
+    //     x: date,
+    //     y: [
+    //       parseFloat(stock_data[date]["1. open"]),
+    //       parseFloat(stock_data[date]["2. high"]),
+    //       parseFloat(stock_data[date]["3. low"]),
+    //       parseFloat(stock_data[date]["4. close"]),
+    //     ],
+    //   };
+    //   this.graph_data.push(info);
+    // }
+
+    // this.options.series[0].data = this.graph_data.reverse();
+
+    let chart = new ApexCharts(document.querySelector("#stock_compare"), this.options);
+    this.$store.state.price_chart = chart;
+    chart.render();
   },
 };
 </script>
