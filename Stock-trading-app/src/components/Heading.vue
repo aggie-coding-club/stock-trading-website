@@ -6,10 +6,10 @@
   <div class="Heading">
     <body>
       <h1>Stock Trading Simulator</h1>
-      <h2>
+      <!-- <h2>
         A project by Yonghwan Kim, Keegan Smith, Will Heeney, Evan Pan, Marco Verderame, Siddarth Kotthur, and Munish
         Shah.
-      </h2>
+      </h2> -->
       <h3>
         Github link:
         <a
@@ -33,7 +33,7 @@ body {
 }
 h1 {
   background-color: rgb(80, 0, 0);
-  font-size: 550%;
+  font-size: 500%;
   padding-top: 50px;
   padding-bottom: 10px;
   margin: 0;
@@ -41,7 +41,7 @@ h1 {
 h2 {
   font-weight: normal;
   background-color: rgb(80, 0, 0);
-  font-size: 175%;
+  font-size: 150%;
   padding-bottom: 0px;
   margin: 0;
 }

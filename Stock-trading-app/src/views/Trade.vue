@@ -2,12 +2,17 @@
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import TradeTable from "../components/TradeTable.vue";
+import Heading from "../components/Heading.vue";
 </script>
 
 <template>
   <Header />
-  <div class="about"></div>
-  <TradeTable />
+ <div class="content_container">
+ <TradeTable />
+ <div class="chart_container">
+    <canvas id="stock_compare" ref="stock_compare"></canvas>
+ </div>
+ </div>
 </template>
 
 <style></style>
@@ -60,9 +65,29 @@ export default {
     this.connectAPI();
     console.log(this.$store.state.userID);
 
-    // this.client.quote("MSFT", (error, data, response) => {
-    //   this.testPrice = data["c"];
-    // });
+    this.client.quote("MSFT", (error, data, response) => {
+      this.testPrice = data["c"];
+    });
+
+    console.log(this.testPrice);
   },
 };
 </script>
+
+<style scoped>
+.content_container{
+width:100%;
+height: 85vh;
+margin:auto;
+    display:flex;
+    justify-content: space-evenly;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+}
+.chart_container{
+    background-color:black;
+    width: 40%;
+    height: 100%;
+}
+</style>

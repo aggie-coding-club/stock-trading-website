@@ -3,6 +3,7 @@
 <script>
 import { ApiClient, DefaultApi } from "finnhub";
 import { ref } from "vue";
+import Heading from "./Heading.vue";
 
 export default {
   data() {
@@ -58,32 +59,47 @@ export default {
 </script>
 
 <template>
-  <div class="Table_Container">
-    <div class="flexbox">
-      <div class="search">
-        <div>
-          <input v-model="input" type="text" placeholder="Search . . ." />
-        </div>
+  <div class="search_container">
+    <div class="flexbox_container">
+      <input type="text" v-model="input" @input="filtered(this.prices, input)" />
+      <button>Search</button>
+    </div>
+    <div>
+      <div class="Table_Container">
+        <Table>
+          <thead>
+            <tr>
+              <th class="Table_Heading">Ticker</th>
+              <th class="Table_Heading">Current Price</th>
+            </tr>
+          </thead>
+          <tr v-for="(price, ticker, index) in filtered(prices, input)">
+            <td class="Table_Ticker" @click="Bob" :class="ticker">{{ ticker }}</td>
+            <td class="Table_Price">${{ price }}</td>
+          </tr>
+        </Table>
       </div>
     </div>
-
-    <Table>
-      <thead>
-        <tr>
-          <th class="Table_Heading">Ticker</th>
-          <th class="Table_Heading">Current Price</th>
-        </tr>
-      </thead>
-      <tr v-for="(price, ticker, index) in filtered(prices, input)">
-        <td class="Table_Ticker" @click="Bob" :class="ticker">{{ ticker }}</td>
-        <td class="Table_Price">${{ price }}</td>
-      </tr>
-    </Table>
   </div>
 </template>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap");
+.header {
+  width: 100%;
+  height: 40vh;
+}
+.search_container {
+  height: 80vh;
+  border: 1px solid white;
+  background: white;
+  width: 40%;
+  padding: 10px;
+}
+
+.flexbox_container {
+  margin: 10px;
+}
 .selected {
   background-color: rgb(80, 0, 0);
   color: white;
@@ -92,7 +108,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
-  height: 100%;
+  height:100%;
 }
 
 th,
@@ -102,6 +118,7 @@ td {
   vertical-align: middle;
   border-top: 0.0625rem solid maroon;
   min-width: 5rem;
+  height:2vh;
 }
 caption {
   display: table-caption;
@@ -120,8 +137,9 @@ caption {
 }
 .Table_Container {
   color: black;
-  width: 25%;
-  position: relative;
+  width: 90%;
+  height:65vh;
+  margin: auto;
   padding: 1.25rem 0.9375rem;
   border-color: rgb(255 255 255/10%);
   box-shadow: 0 0 0.625rem 0 rgb(0 0 0 / 10%);
@@ -133,7 +151,7 @@ caption {
   font-size: 0.5625rem;
   line-height: 1.4;
   text-transform: uppercase;
-  text-align: left;
+  text-align: center;
   color: maroon;
 }
 
@@ -141,13 +159,14 @@ caption {
   font-family: "source_sans_prosemibold", Helvetica, Arial, sans-serif;
   letter-spacing: 1.5px;
   line-height: 1;
-  text-align: left;
+  text-align: center;
 }
 
 .Table_Price {
   font-family: "source_sans_prosemibold", Helvetica, Arial, sans-serif;
   letter-spacing: 1.5px;
   line-height: 1;
+  text-align: center;
 }
 
 .flexbox {
@@ -176,7 +195,6 @@ caption {
 
 .search > div {
   display: inline-block;
-  position: relative;
   filter: drop-shadow(0 1px #0091c2);
 }
 
@@ -185,7 +203,6 @@ caption {
   background: white;
   width: 4px;
   height: 20px;
-  position: absolute;
   top: 40px;
   right: 2px;
   transform: rotate(135deg);
