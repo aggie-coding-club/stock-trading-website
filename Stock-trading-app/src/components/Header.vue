@@ -13,6 +13,7 @@ export default {
         .then((result) => {
           const uid = result.user.uid;
           this.$store.state.userID = uid;
+          this.$store.state.user_name = result.user
         })
         .catch((e) => {
           console.log("Error buddy");

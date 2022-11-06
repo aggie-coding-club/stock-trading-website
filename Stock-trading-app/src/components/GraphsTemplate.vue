@@ -1,6 +1,6 @@
 <template>
   <div class="chart_container">
-    <canvas id="stock_compare" width="400" height="400" ref="stock_compare"></canvas>
+    <canvas id="stock_compare" ref="stock_compare"></canvas>
   </div>
 </template>
 
@@ -37,8 +37,7 @@ export default {
 </script>
 
 <style>
-.chart_container {
-  width: 200px;
-  height: 200px;
+.chart_container canvas {
+  height: 300px;
 }
 </style>
