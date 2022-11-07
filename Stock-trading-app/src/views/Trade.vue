@@ -9,9 +9,12 @@ import Heading from "../components/Heading.vue";
   <Header />
  <div class="content_container">
  <TradeTable />
- <div class="chart_container">
-    <canvas id="stock_compare" ref="stock_compare"></canvas>
- </div>
+ <div class="btn-group">
+  <button>Sell</button>
+  <button>Buy</button>
+  <br/>
+  <input type="text" placeholder="Search.." name="search">
+</div>
  </div>
 </template>
 
@@ -89,5 +92,51 @@ margin:auto;
     background-color:black;
     width: 40%;
     height: 100%;
+}
+.button {
+  border: none;
+  color: white;
+  padding: 15
+px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.btn-group button {
+  background-color: #04AA6D; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
+
+.btn-group input[type=text] {
+  float: right;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
 }
 </style>
