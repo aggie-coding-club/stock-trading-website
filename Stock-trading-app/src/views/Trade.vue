@@ -150,6 +150,10 @@ export default {
 }
 .chart_container {
   width: 40vw;
-  height: 100%;
+  height: 85vh;
+}
+
+#stock_compare {
+  height: 85vh;
 }
 </style>

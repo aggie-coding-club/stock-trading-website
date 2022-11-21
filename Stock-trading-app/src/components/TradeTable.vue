@@ -5,10 +5,14 @@ import { ApiClient, DefaultApi } from "finnhub";
 import { ref } from "vue";
 import axios from "axios";
 import Heading from "./Heading.vue";
+import firebaseConfig from "../firebaseConfig";
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, collection, onSnapshot, setDoc, getDocFromCache, getDoc } from "firebase/firestore";
 
 export default {
   data() {
     return {
+      numberStocks: 1,
       selected_ticker: "",
       input: "",
       prices: {
@@ -74,15 +78,97 @@ export default {
         },
       ]);
     },
+    async buystocks(e) {
+      if (this.$store.state.login) {
+        let current_balance = this.$store.state.userData["balance"];
+        let total_price = parseFloat(this.prices[this.$store.state.selected_ticker]) * parseInt(this.numberStocks);
+        if (this.$store.state.userData["stocks"][this.$store.state.selected_ticker]) {
+          if (current_balance - total_price < 0) {
+            alert("Insufficient funds");
+          } else {
+            let new_balance = current_balance - total_price;
+            this.$store.state.userData["balance"] = new_balance;
+            this.$store.state.userData["stocks"][this.$store.state.selected_ticker] += parseInt(this.numberStocks);
+          }
+
+          await this.updateUser();
+        } else {
+          let current_balance = this.$store.state.userData["balance"];
+          let total_price = parseFloat(this.prices[this.$store.state.selected_ticker]) * parseInt(this.numberStocks);
+          if (current_balance - total_price < 0) {
+            alert("Insufficient funds");
+          } else {
+            let new_balance = current_balance - total_price;
+            this.$store.state.userData["balance"] = new_balance;
+            this.$store.state.userData["stocks"][this.$store.state.selected_ticker] = parseInt(this.numberStocks);
+          }
+
+          await this.updateUser();
+        }
+        console.log(this.$store.state.userData);
+      } else {
+        console.log("Log in");
+        console.log(this.$store.state.selected_ticker);
+      }
+    },
+
+    async sellStocks(e) {
+      if (this.$store.state.login) {
+        let current_balance = this.$store.state.userData["balance"];
+        let total_price = parseFloat(this.prices[this.$store.state.selected_ticker]) * parseInt(this.numberStocks);
+        if (this.$store.state.userData["stocks"][this.$store.state.selected_ticker]) {
+          if (parseInt(this.numberStocks) > this.$store.state.userData["stocks"][this.$store.state.selected_ticker]) {
+            alert("Insufficient funds");
+          } else {
+            let new_balance = current_balance + total_price;
+            this.$store.state.userData["balance"] = new_balance;
+            this.$store.state.userData["stocks"][this.$store.state.selected_ticker] -= parseInt(this.numberStocks);
+          }
+          await this.updateUser();
+        } else {
+          alert("No stocks for this ticker");
+        }
+        console.log(this.$store.state.userData);
+      } else {
+        console.log("Log in");
+        console.log(this.$store.state.selected_ticker);
+      }
+    },
+
+    async getData() {
+      let cool = {};
+      for (const [ticker, price] of Object.entries(this.prices)) {
+        const response = await axios.get(
+          `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=ccssiviad3ia79l0s8mgccssiviad3ia79l0s8n0`
+        );
+        const data = await response.data;
+        cool[ticker] = data["c"];
+      }
+
+      return cool;
+    },
+
+    async connectDB() {
+      const firebaseConfig = this.$store.state.firebaseConfig;
+
+      const app = initializeApp(firebaseConfig);
+
+      const db = getFirestore(app);
+      this.database = db;
+    },
+
+    async updateUser() {
+      const docRef = doc(this.database, "users", this.$store.state.userID);
+
+      await setDoc(doc(this.database, "users", this.$store.state.userID), this.$store.state.userData);
+    },
   },
 
-  mounted() {
+  async mounted() {
     this.connectAPI();
-    // for (const [ticker, price] of Object.entries(this.prices)) {
-    //   this.client.quote(ticker, (error, data, response) => {
-    //     this.prices[ticker] = data["c"];
-    //   });
-    // }
+    await this.connectDB();
+    //let damn = await this.getData();
+    //this.prices = damn;
   },
 };
 </script>
@@ -93,6 +179,9 @@ export default {
     <div class="flexbox_container">
       <input type="text" v-model="input" @input="filtered(this.prices, input)" />
       <button>Search</button>
+      <input type="text" name="stocks" placeholder="#stocks" v-model="numberStocks" />
+      <button @click="buystocks">Buy</button>
+      <button @click="sellStocks">Sell</button>
     </div>
     <div>
       <div class="Table_Container">

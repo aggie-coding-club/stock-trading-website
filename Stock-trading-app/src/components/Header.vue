@@ -4,7 +4,7 @@
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import firebaseConfig from "../firebaseConfig";
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, collection, getDoc } from "firebase/firestore";
+import { getFirestore, doc, collection, onSnapshot, setDoc, getDocFromCache, getDoc } from "firebase/firestore";
 firebaseConfig;
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -12,14 +12,16 @@ export default {
   methods: {
     googleSignIn() {
       signInWithPopup(auth, provider)
-        .then((result) => {
+        .then(async (result) => {
           const uid = result.user.uid;
           this.$store.state.userID = uid;
           this.$store.state.user_name = result.user;
-          this.$store.state.logged_in = true;
+          this.$store.state.login = true;
+          await this.createUser();
         })
         .catch((e) => {
           console.log("Error buddy");
+          console.log(e);
         });
     },
 
@@ -29,27 +31,37 @@ export default {
       const app = initializeApp(firebaseConfig);
 
       const db = getFirestore(app);
-      this.db = db;
-      this.collection = collection(db, "users");
+      this.database = db;
     },
 
-    async getData() {
-      if (this.$store.state.userID != "" || this.$store.state.userID != null) {
-        const docRef = doc(this.$data.db, "users", this.$store.state.userID);
-        const docSnap = await getDoc(docRef);
+    async createUser() {
+      const docRef = doc(this.database, "users", this.$store.state.userID);
 
-        console.log(docSnap.data());
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        this.getData();
       } else {
-        console.log("not logged in!");
+        await setDoc(doc(this.database, "users", this.$store.state.userID), {
+          balance: 1000,
+          stocks: {},
+        });
+        this.getData();
       }
+    },
+
+    getData() {
+      onSnapshot(collection(this.database, "users"), (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.id == this.$store.state.userID) {
+            this.$store.state.userData = doc.data();
+          }
+        });
+      });
     },
   },
 
   async mounted() {
-    //await this.connectDB();
-    console.log("database connected");
-    //await this.getData();
-    console.log("Got data");
+    await this.connectDB();
   },
 };
 </script>
@@ -70,6 +82,9 @@ export default {
       </li>
       <li style="float: right" :class="this.$route.name == 'home' ? 'active' : ''">
         <router-link to="/">Home</router-link>
+      </li>
+      <li v-if="this.$store.state.userID != ''" style="float: right" class="balance">
+        <router-link to="/">${{ this.$store.state.userData.balance }}</router-link>
       </li>
     </ul>
   </div>
@@ -103,5 +118,8 @@ li a:hover {
 
 .active {
   background-color: #800020;
+}
+
+.balance {
 }
 </style>

@@ -14,6 +14,8 @@ const store = createStore({
         appId: "1:200012668110:web:18c8c5d167d14eb46dc49f",
         measurementId: "G-31C594NLNQ",
       },
+      userData: {},
+      login: false,
     };
   },
   mutations: {},
